@@ -22,4 +22,10 @@ public class HelloController {
     public String hello() {
         return "hello";
     }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public String git() {
+        return "good";
+    }
 }
