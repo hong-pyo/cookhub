@@ -9,16 +9,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
 /**
  * Created by hong2 on 2018. 10. 2.
  * Time : AM 12:03
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "books")
 public class BooksRestController {
@@ -28,6 +33,7 @@ public class BooksRestController {
     @Autowired
     private BookService bookService;
 
+    @CrossOrigin(maxAge = 900)
     @RequestMapping(path = "/{bookId}", method = RequestMethod.GET)
     public BookResource getBook(@PathVariable String bookId) {
         Book book = bookService.find(bookId);
@@ -35,21 +41,34 @@ public class BooksRestController {
         resource.setBookId(book.getBookId());
         resource.setName(book.getName());
         resource.setAuthor(book.getAuthor());
+        resource.setPublisher(book.getPublisher());
+        //resource.setLocalDate(book.getLocalDate());
         return resource;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> createBook(@RequestBody BookResource newResource) {
+    public ResponseEntity<Void> createBook(@Validated @RequestBody BookResource newResource, UriComponentsBuilder uriBuilder) {
 
         Book newBook = new Book();
         newBook.setName(newResource.getName());
         newBook.setAuthor(newResource.getAuthor());
+        newBook.setPublisher(newResource.getPublisher());
 
         Book createdBook = bookService.create(newBook);
 
-        String resourceUri = url + createdBook.getBookId();
+        // use UriComponentBuilder
+        URI resourceUri = uriBuilder.path("books/{bookId}")
+                .buildAndExpand(createdBook.getBookId())
+                .encode()
+                .toUri();
 
-        return ResponseEntity.created(URI.create(resourceUri)).build();
+        // use MvcComponentBuilder
+        URI resourceMvcUri = MvcUriComponentsBuilder.relativeTo(uriBuilder)
+                .withMethodCall(on(BooksRestController.class)
+                .getBook(createdBook.getBookId()))
+                .build().encode().toUri();
+
+        return ResponseEntity.created(resourceUri).build();
     }
 
     @RequestMapping(path = "{bookId}", method = RequestMethod.PUT)
@@ -60,6 +79,8 @@ public class BooksRestController {
         book.setBookId(bookId);
         book.setName(bookResource.getName());
         book.setAuthor(bookResource.getAuthor());
+        book.setPublisher(bookResource.getPublisher());
+
         bookService.update(book);
     }
 
@@ -81,6 +102,7 @@ public class BooksRestController {
             resource.setBookId(book.getBookId());
             resource.setName(book.getName());
             resource.setAuthor(book.getAuthor());
+            resource.setPublisher(book.getPublisher());
             return resource;
         }).collect(Collectors.toList());
     }

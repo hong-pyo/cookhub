@@ -1,8 +1,11 @@
 package com.hong.cookhub.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 
 /**
@@ -17,4 +20,7 @@ public class Book {
     private String bookId;
     private String name;
     private String author;
+    /*@JsonFormat(pattern = "yyyy/mm/dd")
+    private LocalDate localDate;*/
+    private BookPublisher publisher;
 }

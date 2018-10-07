@@ -2,10 +2,13 @@ package com.hong.cookhub.service;
 
 import com.hong.cookhub.controller.BookResourceNotFoundException;
 import com.hong.cookhub.model.Book;
+import com.hong.cookhub.model.BookPublisher;
 import com.hong.cookhub.model.BookResourceQuery;
+import com.hong.cookhub.utils.StringFormatter;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -28,8 +31,20 @@ public class BookService {
         book.setBookId("1234");
         book.setName("슬랙으로 살아남기");
         book.setAuthor("hongE");
+        BookPublisher bookPublisher = getInitBookPublisher();
+
+        //book.setLocalDate(LocalDate.now());
+        book.setPublisher(bookPublisher);
 
         bookRepository.put(book.getBookId(), book);
+    }
+
+    private BookPublisher getInitBookPublisher() {
+        BookPublisher bookPublisher = new BookPublisher();
+        bookPublisher.setName("Kyu Publisher");
+        bookPublisher.setTel(StringFormatter.format("%s-%s-%s","010","3954","0597"));
+
+        return bookPublisher;
     }
 
     public Book find(String bookId) {
