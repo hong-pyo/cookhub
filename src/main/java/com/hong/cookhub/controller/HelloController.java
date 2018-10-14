@@ -17,6 +17,11 @@ public class HelloController {
         return "index";
     }
 
+    @RequestMapping("/file")
+    public String fileUPload(Model model) {
+        return "file";
+    }
+
     @RequestMapping("/hello")
     @ResponseBody
     public String hello() {
