@@ -7,6 +7,9 @@
           <element id="module-output" name="cookhub" />
         </element>
         <element id="directory" name="lib">
+          <element id="archive" name="cookhub-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="cookhub" />
+          </element>
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.0.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.0.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.0.5.RELEASE" />
