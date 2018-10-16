@@ -17,6 +17,11 @@
             <param-value>com.hong.cookhub.config.WebMvcConfig</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <multipart-config >
+            <max-file-size>5242880</max-file-size>
+            <max-request-size>27262976</max-request-size>
+            <file-size-threshold>1028576</file-size-threshold>
+        </multipart-config>
     </servlet>
     <servlet-mapping>
         <servlet-name>spring</servlet-name>

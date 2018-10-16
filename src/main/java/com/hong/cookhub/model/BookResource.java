@@ -1,11 +1,9 @@
 package com.hong.cookhub.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 /**
  * Created by hong2 on 2018. 10. 2.
@@ -14,7 +12,6 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-
 public class BookResource implements Serializable {
 
     private String bookId;
